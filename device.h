@@ -19,6 +19,13 @@ typedef enum DeviceType_t {
   TypeNA,
 } DeviceType_t;
 
+/**
+ * @brief Contains some data based on device needs. For example,
+ * for joystic it can have prevous and current keymap.
+ * For display - frame, sync state, etc.
+ */
+typedef struct DeviceData_t DeviceData_t;
+
 typedef struct DeviceSpecification_t {
   const char *name;
   const DeviceType_t type;
@@ -26,7 +33,7 @@ typedef struct DeviceSpecification_t {
   bool (*onInit)(void);
   void (*onUpdate)(void);
   void (*onEnable)(bool enable);
-  void *(*getData)(void);
+  DeviceData_t *(*getData)(void);
 } DeviceSpecification_t;
 
 typedef struct Device_t Device_t;
@@ -40,7 +47,7 @@ void DeviceEnable(Device_t *device, const bool enable);
 const char *DeviceGetName(const Device_t *device);
 const _u16 DeviceGetId(const Device_t *device);
 const DeviceType_t DeviceGetType(const Device_t *device);
-void *DeviceGetData(const Device_t *device);
+const DeviceData_t *DeviceGetData(const Device_t *device);
 
 #ifdef __cplusplus
 }
