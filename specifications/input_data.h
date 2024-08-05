@@ -31,6 +31,10 @@ static inline bool IsButtonLongPressed(const DeviceData_t *data,
          isPressed(data->previousKeymap, keycode) == true;
 }
 
+static inline bool IsAnyButtonPressed(const DeviceData_t *data) {
+  return data->keymap > 0 || data->previousKeymap > 0;
+}
+
 #ifdef __cplusplus
 }
 #endif
