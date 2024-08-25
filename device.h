@@ -13,6 +13,7 @@ typedef enum DeviceType_t {
   TypeInput,
   TypeDisplay,
   TypeStorage,
+  TypePower,
   TypeEnv,
   TypeClock,
   TypeGeneric,
@@ -45,8 +46,8 @@ void DeviceUpdate(Device_t *device);
 void DeviceEnable(Device_t *device, const bool enable);
 
 const char *DeviceGetName(const Device_t *device);
-const _u16 DeviceGetId(const Device_t *device);
-const DeviceType_t DeviceGetType(const Device_t *device);
+_u16 DeviceGetId(const Device_t *device);
+DeviceType_t DeviceGetType(const Device_t *device);
 const DeviceData_t *DeviceGetData(const Device_t *device);
 
 #ifdef __cplusplus

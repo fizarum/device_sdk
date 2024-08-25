@@ -39,9 +39,9 @@ const char *DeviceGetName(const Device_t *device) {
   return device->specification->name;
 }
 
-const _u16 DeviceGetId(const Device_t *device) { return device->id; }
+_u16 DeviceGetId(const Device_t *device) { return device->id; }
 
-const DeviceType_t DeviceGetType(const Device_t *device) {
+DeviceType_t DeviceGetType(const Device_t *device) {
   return device->specification->type;
 }
 
