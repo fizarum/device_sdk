@@ -4,10 +4,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "../device.h"
 
-typedef struct DeviceData_t {
-  _u8 levelPercents;
+#include <types.h>
+
+typedef struct BatteryDeviceData_t {
+  _u8 chargeLevelPercents;
   // todo: update this field in new version of pcb
   bool charging;
 } BatteryDeviceData_t;

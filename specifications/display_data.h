@@ -4,9 +4,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "../device.h"
 
-typedef struct DeviceData_t {
+#include <types.h>
+
+typedef struct DisplayDeviceData_t {
   _u16 width;
   _u16 height;
 } DisplayDeviceData_t;
