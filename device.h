@@ -24,16 +24,17 @@ typedef struct DeviceSpecification_t {
   const char *name;
   const DeviceType_t type;
 
-  bool (*onInit)(void);
-  void (*onUpdate)(void);
-  void (*onEnable)(bool enable);
   /**
    * @brief Contains some data based on device type. For example,
    * for joystic it can have prevous and current keymap.
    * For display - frame, sync state, etc.
    * Check "specifications" folder for details
    */
-  void *(*getData)(void);
+  void *data;
+
+  bool (*onInit)(void);
+  void (*onUpdate)(void);
+  void (*onEnable)(bool enable);
 } DeviceSpecification_t;
 
 typedef struct Device_t Device_t;

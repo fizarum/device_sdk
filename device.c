@@ -46,5 +46,8 @@ DeviceType_t DeviceGetType(const Device_t *device) {
 }
 
 const void *DeviceGetData(const Device_t *device) {
-  return device->specification->getData();
+  if (device == NULL) {
+    return NULL;
+  }
+  return device->specification->data;
 }

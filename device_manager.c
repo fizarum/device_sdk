@@ -8,18 +8,22 @@ typedef struct DeviceManager_t {
   Map_t *devices;
 } DeviceManager_t;
 
+static DeviceManager_t *deviceManager = NULL;
+
 static void _UpdateDevices(const _u16 key, const void *value);
+static bool _FindDeviceByTypePredicate(const void *expected, const void *value);
 
-DeviceManager_t *DeviceManagerCreate() {
-  DeviceManager_t *deviceManager =
-      (DeviceManager_t *)malloc(sizeof(DeviceManager_t));
-
+DeviceManager_t *DeviceManagerGetInstance() {
   if (deviceManager == NULL) {
-    return NULL;
-  }
+    deviceManager = (DeviceManager_t *)malloc(sizeof(DeviceManager_t));
 
-  deviceManager->devices = MapCreate(MAX_DEVICES_COUNT);
-  deviceManager->nextDeviceId = 0;
+    if (deviceManager == NULL) {
+      return NULL;
+    }
+
+    deviceManager->devices = MapCreate(MAX_DEVICES_COUNT);
+    deviceManager->nextDeviceId = 0;
+  }
 
   return deviceManager;
 }
@@ -47,12 +51,26 @@ Device_t *DeviceManagerGet(const DeviceManager_t *deviceManager,
   return MapGet(deviceManager->devices, deviceId);
 }
 
+Device_t *DeviceManagerGetByType(const DeviceManager_t *deviceManager,
+                                 const DeviceType_t deviceType) {
+  return MapFind(deviceManager->devices, (void *)deviceType,
+                 &_FindDeviceByTypePredicate);
+}
+
 _u16 DeviceManagerNextDeviceId(DeviceManager_t *deviceManager) {
   deviceManager->nextDeviceId++;
   return deviceManager->nextDeviceId;
 }
 
+//
 static void _UpdateDevices(const _u16 key, const void *value) {
   Device_t *device = (Device_t *)value;
   DeviceUpdate(device);
+}
+
+static bool _FindDeviceByTypePredicate(const void *expected,
+                                       const void *value) {
+  const DeviceType_t deviceType = (DeviceType_t)expected;
+  Device_t *device = (Device_t *)value;
+  return deviceType == DeviceGetType(device);
 }
