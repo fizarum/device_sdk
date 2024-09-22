@@ -14,7 +14,7 @@ extern "C" {
 
 typedef struct DeviceManager_t DeviceManager_t;
 
-DeviceManager_t *DeviceManagerCreate();
+DeviceManager_t *DeviceManagerGetInstance();
 
 void DeviceManagerUpdate(const DeviceManager_t *deviceManager);
 
@@ -29,6 +29,9 @@ _u16 DeviceManagerAdd(DeviceManager_t *deviceManager, Device_t *device);
 
 Device_t *DeviceManagerGet(const DeviceManager_t *deviceManager,
                            const _u16 deviceId);
+
+Device_t *DeviceManagerGetByType(const DeviceManager_t *deviceManager,
+                                 const DeviceType_t deviceType);
 
 _u16 DeviceManagerNextDeviceId(DeviceManager_t *deviceManager);
 
