@@ -39,11 +39,12 @@ _u16 DeviceManagerAdd(DeviceManager_t *deviceManager, Device_t *device) {
 
   _u16 deviceId = DeviceGetId(device);
   bool added = MapSet(deviceManager->devices, deviceId, device);
+  bool initOk = false;
   if (added == true) {
-    DeviceInit(device);
+    initOk = DeviceInit(device);
   }
 
-  return (added == true) ? deviceId : DEVICE_ID_NONE;
+  return (added == true && initOk == true) ? deviceId : DEVICE_ID_NONE;
 }
 
 Device_t *DeviceManagerGet(const DeviceManager_t *deviceManager,
