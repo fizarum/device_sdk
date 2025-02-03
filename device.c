@@ -4,6 +4,7 @@
 
 typedef struct Device_t {
   uint16_t id;
+  bool enabled;
   DeviceSpecification_t *specification;
 } Device_t;
 
@@ -23,17 +24,25 @@ void DeviceDestroy(Device_t *device) {
 }
 
 bool DeviceInit(Device_t *device) {
-  bool initOk = device->specification->onInit();
-  device->specification->onEnable(initOk);
+  bool initialized = device->specification->onInit();
+  if (initialized == true) {
+    DeviceEnable(device, true);
+  }
 
-  return initOk;
+  return initialized;
 }
 
 void DeviceUpdate(Device_t *device) { device->specification->onUpdate(); }
 
 void DeviceEnable(Device_t *device, const bool enable) {
-  device->specification->onEnable(enable);
+  if (device->specification->onEnable(enable) == true) {
+    device->enabled = enable;
+  } else {
+    device->enabled = false;
+  }
 }
+
+bool DeviceIsEnabled(const Device_t *device) { return device->enabled; }
 
 const char *DeviceGetName(const Device_t *device) {
   return device->specification->name;

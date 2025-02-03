@@ -66,7 +66,9 @@ _u16 DeviceManagerNextDeviceId(DeviceManager_t *deviceManager) {
 //
 static void _UpdateDevices(const _u16 key, const void *value) {
   Device_t *device = (Device_t *)value;
-  DeviceUpdate(device);
+  if (DeviceIsEnabled(device) == true) {
+    DeviceUpdate(device);
+  }
 }
 
 static bool _FindDeviceByTypePredicate(const void *expected,

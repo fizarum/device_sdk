@@ -34,7 +34,8 @@ typedef struct DeviceSpecification_t {
 
   bool (*onInit)(void);
   void (*onUpdate)(void);
-  void (*onEnable)(bool enable);
+  bool (*onEnable)(bool enable);
+  bool (*isEnabled)(void);
 } DeviceSpecification_t;
 
 typedef struct Device_t Device_t;
@@ -44,6 +45,7 @@ void DeviceDestroy(Device_t *device);
 bool DeviceInit(Device_t *device);
 void DeviceUpdate(Device_t *device);
 void DeviceEnable(Device_t *device, const bool enable);
+bool DeviceIsEnabled(const Device_t *device);
 
 const char *DeviceGetName(const Device_t *device);
 _u16 DeviceGetId(const Device_t *device);
