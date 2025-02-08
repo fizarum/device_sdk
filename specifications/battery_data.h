@@ -9,8 +9,8 @@ extern "C" {
 
 typedef struct BatteryDeviceData_t {
   _u8 chargeLevelPercents;
-  // todo: update this field in new version of pcb
   bool charging;
+  bool charginStatusChanged;
 } BatteryDeviceData_t;
 
 #ifdef __cplusplus
