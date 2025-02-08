@@ -32,6 +32,10 @@ typedef struct DeviceSpecification_t {
    */
   void *data;
 
+  /**
+   * @brief Called to initialize hardware
+   * @returns true if init procedure completes successfully
+   */
   bool (*onInit)(void);
   void (*onUpdate)(void);
   bool (*onEnable)(bool enable);
