@@ -17,6 +17,7 @@ typedef enum DeviceType_t {
   TypeEnv,
   TypeClock,
   TypeGeneric,
+  TypeAudio,
   TypeNA,
 } DeviceType_t;
 
