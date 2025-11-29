@@ -12,11 +12,11 @@ extern "C" {
 #define MAX_DEVICES_COUNT 20
 #define DEVICE_ID_NONE UINT16_MAX
 
-typedef struct DeviceManager_t DeviceManager_t;
+typedef struct DeviceManager DeviceManager;
 
-DeviceManager_t *DeviceManagerGetInstance();
+DeviceManager* DeviceManagerGetInstance();
 
-void DeviceManagerUpdate(const DeviceManager_t *deviceManager);
+void DeviceManagerUpdate(const DeviceManager* deviceManager);
 
 /**
  * @brief Adds device to device manager for further management. If device can
@@ -25,15 +25,15 @@ void DeviceManagerUpdate(const DeviceManager_t *deviceManager);
  * @param device to add
  * @return id if device is added, DEVICE_ID_NONE otherwise
  */
-_u16 DeviceManagerAdd(DeviceManager_t *deviceManager, Device_t *device);
+_u16 DeviceManagerAdd(DeviceManager* deviceManager, Device* device);
 
-Device_t *DeviceManagerGet(const DeviceManager_t *deviceManager,
-                           const _u16 deviceId);
+Device* DeviceManagerGet(const DeviceManager* deviceManager,
+                         const _u16 deviceId);
 
-Device_t *DeviceManagerGetByType(const DeviceManager_t *deviceManager,
-                                 const DeviceType_t deviceType);
+Device* DeviceManagerGetByType(const DeviceManager* deviceManager,
+                               const DeviceType deviceType);
 
-_u16 DeviceManagerNextDeviceId(DeviceManager_t *deviceManager);
+_u16 DeviceManagerNextDeviceId(DeviceManager* deviceManager);
 
 #ifdef __cplusplus
 }

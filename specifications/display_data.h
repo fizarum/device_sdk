@@ -7,10 +7,10 @@ extern "C" {
 
 #include <types.h>
 
-typedef struct DisplayDeviceData_t {
+typedef struct DisplayDeviceData {
   _u16 width;
   _u16 height;
-} DisplayDeviceData_t;
+} DisplayDeviceData;
 
 #ifdef __cplusplus
 }
