@@ -7,11 +7,11 @@ extern "C" {
 
 #include <types.h>
 
-typedef struct BatteryDeviceData_t {
+typedef struct BatteryDeviceData {
   _u8 chargeLevelPercents;
   bool charging;
   bool charginStatusChanged;
-} BatteryDeviceData_t;
+} BatteryDeviceData;
 
 #ifdef __cplusplus
 }

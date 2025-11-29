@@ -3,19 +3,19 @@
 #include <map.h>
 #include <stdlib.h>
 
-typedef struct DeviceManager_t {
+typedef struct DeviceManager {
   _u16 nextDeviceId;
-  Map_t *devices;
-} DeviceManager_t;
+  Map_t* devices;
+} DeviceManager;
 
-static DeviceManager_t *deviceManager = NULL;
+static DeviceManager* deviceManager = NULL;
 
-static void _UpdateDevices(const _u16 key, const void *value);
-static bool _FindDeviceByTypePredicate(const void *expected, const void *value);
+static void _UpdateDevices(const _u16 key, const void* value);
+static bool _FindDeviceByTypePredicate(const void* expected, const void* value);
 
-DeviceManager_t *DeviceManagerGetInstance() {
+DeviceManager* DeviceManagerGetInstance() {
   if (deviceManager == NULL) {
-    deviceManager = (DeviceManager_t *)malloc(sizeof(DeviceManager_t));
+    deviceManager = (DeviceManager*)malloc(sizeof(DeviceManager));
 
     if (deviceManager == NULL) {
       return NULL;
@@ -28,11 +28,11 @@ DeviceManager_t *DeviceManagerGetInstance() {
   return deviceManager;
 }
 
-void DeviceManagerUpdate(const DeviceManager_t *deviceManager) {
+void DeviceManagerUpdate(const DeviceManager* deviceManager) {
   MapForeach(deviceManager->devices, &_UpdateDevices);
 }
 
-_u16 DeviceManagerAdd(DeviceManager_t *deviceManager, Device_t *device) {
+_u16 DeviceManagerAdd(DeviceManager* deviceManager, Device* device) {
   if (device == NULL) {
     return DEVICE_ID_NONE;
   }
@@ -47,33 +47,33 @@ _u16 DeviceManagerAdd(DeviceManager_t *deviceManager, Device_t *device) {
   return (added == true && initOk == true) ? deviceId : DEVICE_ID_NONE;
 }
 
-Device_t *DeviceManagerGet(const DeviceManager_t *deviceManager,
-                           const _u16 deviceId) {
+Device* DeviceManagerGet(const DeviceManager* deviceManager,
+                         const _u16 deviceId) {
   return MapGet(deviceManager->devices, deviceId);
 }
 
-Device_t *DeviceManagerGetByType(const DeviceManager_t *deviceManager,
-                                 const DeviceType_t deviceType) {
-  return MapFind(deviceManager->devices, (void *)deviceType,
+Device* DeviceManagerGetByType(const DeviceManager* deviceManager,
+                               const DeviceType deviceType) {
+  return MapFind(deviceManager->devices, (void*)deviceType,
                  &_FindDeviceByTypePredicate);
 }
 
-_u16 DeviceManagerNextDeviceId(DeviceManager_t *deviceManager) {
+_u16 DeviceManagerNextDeviceId(DeviceManager* deviceManager) {
   deviceManager->nextDeviceId++;
   return deviceManager->nextDeviceId;
 }
 
 //
-static void _UpdateDevices(const _u16 key, const void *value) {
-  Device_t *device = (Device_t *)value;
+static void _UpdateDevices(const _u16 key, const void* value) {
+  Device* device = (Device*)value;
   if (DeviceIsEnabled(device) == true) {
     DeviceUpdate(device);
   }
 }
 
-static bool _FindDeviceByTypePredicate(const void *expected,
-                                       const void *value) {
-  const DeviceType_t deviceType = (DeviceType_t)expected;
-  Device_t *device = (Device_t *)value;
+static bool _FindDeviceByTypePredicate(const void* expected,
+                                       const void* value) {
+  const DeviceType deviceType = (DeviceType)expected;
+  Device* device = (Device*)value;
   return deviceType == DeviceGetType(device);
 }

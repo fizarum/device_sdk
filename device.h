@@ -5,11 +5,9 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <types.h>
 
-typedef enum DeviceType_t {
+typedef enum DeviceType {
   TypeInput,
   TypeDisplay,
   TypeStorage,
@@ -19,11 +17,19 @@ typedef enum DeviceType_t {
   TypeGeneric,
   TypeAudio,
   TypeNA,
-} DeviceType_t;
+} DeviceType;
 
-typedef struct DeviceSpecification_t {
-  const char *name;
-  const DeviceType_t type;
+typedef struct Device Device;
+
+typedef struct DeviceSpecification {
+  const char* name;
+  const DeviceType type;
+
+  /**
+   * @brief Link to "parent" object. Its assigned during device creation:
+   * DeviceCreate() function
+   */
+  Device* device;
 
   /**
    * @brief Contains some data based on device type. For example,
@@ -31,7 +37,14 @@ typedef struct DeviceSpecification_t {
    * For display - frame, sync state, etc.
    * Check "specifications" folder for details
    */
-  void *data;
+  void* data;
+
+  /**
+   * @brief used to access to a structure of specific device API. For example,
+   * for display it can have: setBrightness(), setRotation(), invertColors, etc.
+   *
+   */
+  void* extension;
 
   /**
    * @brief Called to initialize hardware
@@ -41,21 +54,21 @@ typedef struct DeviceSpecification_t {
   void (*onUpdate)(void);
   bool (*onEnable)(bool enable);
   bool (*isEnabled)(void);
-} DeviceSpecification_t;
+} DeviceSpecification;
 
-typedef struct Device_t Device_t;
+Device* DeviceCreate(uint16_t id, DeviceSpecification* specification);
+void DeviceDestroy(Device* device);
+bool DeviceInit(Device* device);
+void DeviceUpdate(Device* device);
+void DeviceEnable(Device* device, const bool enable);
+bool DeviceIsEnabled(const Device* device);
 
-Device_t *DeviceCreate(uint16_t id, DeviceSpecification_t *specification);
-void DeviceDestroy(Device_t *device);
-bool DeviceInit(Device_t *device);
-void DeviceUpdate(Device_t *device);
-void DeviceEnable(Device_t *device, const bool enable);
-bool DeviceIsEnabled(const Device_t *device);
+const char* DeviceGetName(const Device* device);
+_u16 DeviceGetId(const Device* device);
+DeviceType DeviceGetType(const Device* device);
+const void* DeviceGetData(const Device* device);
 
-const char *DeviceGetName(const Device_t *device);
-_u16 DeviceGetId(const Device_t *device);
-DeviceType_t DeviceGetType(const Device_t *device);
-const void *DeviceGetData(const Device_t *device);
+DeviceSpecification* Device_GetSpecification(const Device* device);
 
 #ifdef __cplusplus
 }

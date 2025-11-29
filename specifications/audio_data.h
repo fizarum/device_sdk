@@ -7,9 +7,9 @@ extern "C" {
 
 #include <types.h>
 
-typedef struct AudioDeviceData_t {
+typedef struct AudioDeviceData {
   float volume;
-} AudioDeviceData_t;
+} AudioDeviceData;
 
 #ifdef __cplusplus
 }

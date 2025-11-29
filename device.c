@@ -2,28 +2,31 @@
 
 #include <stdlib.h>
 
-typedef struct Device_t {
+typedef struct Device {
   uint16_t id;
   bool enabled;
-  DeviceSpecification_t *specification;
-} Device_t;
+  DeviceSpecification* specification;
+} Device;
 
-Device_t *DeviceCreate(uint16_t id, DeviceSpecification_t *specification) {
-  Device_t *device = (Device_t *)malloc(sizeof(Device_t));
+Device* DeviceCreate(uint16_t id, DeviceSpecification* specification) {
+  Device* device = (Device*)malloc(sizeof(Device));
 
   device->id = id;
+  // set a ref of device to specification, so it knows its parent
+  specification->device = device;
+
   device->specification = specification;
 
   return device;
 }
 
-void DeviceDestroy(Device_t *device) {
+void DeviceDestroy(Device* device) {
   if (device == NULL) return;
 
   free(device);
 }
 
-bool DeviceInit(Device_t *device) {
+bool DeviceInit(Device* device) {
   bool initialized = device->specification->onInit();
   if (initialized == true) {
     DeviceEnable(device, true);
@@ -32,9 +35,9 @@ bool DeviceInit(Device_t *device) {
   return initialized;
 }
 
-void DeviceUpdate(Device_t *device) { device->specification->onUpdate(); }
+void DeviceUpdate(Device* device) { device->specification->onUpdate(); }
 
-void DeviceEnable(Device_t *device, const bool enable) {
+void DeviceEnable(Device* device, const bool enable) {
   if (device->specification->onEnable(enable) == true) {
     device->enabled = enable;
   } else {
@@ -42,21 +45,28 @@ void DeviceEnable(Device_t *device, const bool enable) {
   }
 }
 
-bool DeviceIsEnabled(const Device_t *device) { return device->enabled; }
+bool DeviceIsEnabled(const Device* device) { return device->enabled; }
 
-const char *DeviceGetName(const Device_t *device) {
+const char* DeviceGetName(const Device* device) {
   return device->specification->name;
 }
 
-_u16 DeviceGetId(const Device_t *device) { return device->id; }
+_u16 DeviceGetId(const Device* device) { return device->id; }
 
-DeviceType_t DeviceGetType(const Device_t *device) {
+DeviceType DeviceGetType(const Device* device) {
   return device->specification->type;
 }
 
-const void *DeviceGetData(const Device_t *device) {
+const void* DeviceGetData(const Device* device) {
   if (device == NULL) {
     return NULL;
   }
   return device->specification->data;
+}
+
+DeviceSpecification* Device_GetSpecification(const Device* device) {
+  if (device == NULL) {
+    return NULL;
+  }
+  return device->specification;
 }
