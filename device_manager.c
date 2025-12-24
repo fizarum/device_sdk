@@ -10,8 +10,16 @@ typedef struct DeviceManager {
 
 static DeviceManager* deviceManager = NULL;
 
-static void _UpdateDevices(const _u16 key, const void* value);
-static bool _FindDeviceByTypePredicate(const void* expected, const void* value);
+static inline void _UpdateDevices(const _u16 key, const void* value) {
+  Device* device = (Device*)value;
+  DeviceUpdate(device);
+}
+static inline bool _FindDeviceByTypePredicate(const void* expected,
+                                              const void* value) {
+  const DeviceType deviceType = (DeviceType)expected;
+  Device* device = (Device*)value;
+  return deviceType == DeviceGetType(device);
+}
 
 DeviceManager* DeviceManagerGetInstance() {
   if (deviceManager == NULL) {
@@ -52,8 +60,27 @@ Device* DeviceManagerGet(const DeviceManager* deviceManager,
   return MapGet(deviceManager->devices, deviceId);
 }
 
-Device* DeviceManagerGetByType(const DeviceManager* deviceManager,
-                               const DeviceType deviceType) {
+DeviceSpecification* DeviceManager_GetSpecification(
+    const DeviceType deviceType) {
+  Device* dev = DeviceManager_GetByType(deviceType);
+  return Device_GetSpecification(dev);
+}
+
+void* DeviceManager_GetData(const DeviceType deviceType) {
+  Device* dev = DeviceManager_GetByType(deviceType);
+  return DeviceGetData(dev);
+}
+
+void* DeviceManager_GetExtension(const DeviceType deviceType) {
+  DeviceSpecification* specs = DeviceManager_GetSpecification(deviceType);
+  return specs->extension;
+}
+
+Device* DeviceManager_GetByType(const DeviceType deviceType) {
+  if (deviceManager == NULL) {
+    return NULL;
+  }
+
   return MapFind(deviceManager->devices, (void*)deviceType,
                  &_FindDeviceByTypePredicate);
 }
@@ -61,19 +88,4 @@ Device* DeviceManagerGetByType(const DeviceManager* deviceManager,
 _u16 DeviceManagerNextDeviceId(DeviceManager* deviceManager) {
   deviceManager->nextDeviceId++;
   return deviceManager->nextDeviceId;
-}
-
-//
-static void _UpdateDevices(const _u16 key, const void* value) {
-  Device* device = (Device*)value;
-  if (DeviceIsEnabled(device) == true) {
-    DeviceUpdate(device);
-  }
-}
-
-static bool _FindDeviceByTypePredicate(const void* expected,
-                                       const void* value) {
-  const DeviceType deviceType = (DeviceType)expected;
-  Device* device = (Device*)value;
-  return deviceType == DeviceGetType(device);
 }

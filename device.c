@@ -35,7 +35,11 @@ bool DeviceInit(Device* device) {
   return initialized;
 }
 
-void DeviceUpdate(Device* device) { device->specification->onUpdate(); }
+void DeviceUpdate(Device* device) {
+  if (device->enabled) {
+    device->specification->onUpdate();
+  }
+}
 
 void DeviceEnable(Device* device, const bool enable) {
   if (device->specification->onEnable(enable) == true) {
@@ -57,7 +61,7 @@ DeviceType DeviceGetType(const Device* device) {
   return device->specification->type;
 }
 
-const void* DeviceGetData(const Device* device) {
+void* DeviceGetData(const Device* device) {
   if (device == NULL) {
     return NULL;
   }

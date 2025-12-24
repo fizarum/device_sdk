@@ -1,5 +1,4 @@
-#ifndef DEVICE_H
-#define DEVICE_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -66,12 +65,10 @@ bool DeviceIsEnabled(const Device* device);
 const char* DeviceGetName(const Device* device);
 _u16 DeviceGetId(const Device* device);
 DeviceType DeviceGetType(const Device* device);
-const void* DeviceGetData(const Device* device);
+void* DeviceGetData(const Device* device);
 
 DeviceSpecification* Device_GetSpecification(const Device* device);
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // DEVICE_H

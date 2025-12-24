@@ -1,5 +1,4 @@
-#ifndef BATTERY_DATA_H
-#define BATTERY_DATA_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -16,5 +15,3 @@ typedef struct BatteryDeviceData {
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // BATTERY_DATA_H
