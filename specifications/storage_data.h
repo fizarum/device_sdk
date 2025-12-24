@@ -1,5 +1,4 @@
-#ifndef STORAGE_DATA_H
-#define STORAGE_DATA_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,13 +8,11 @@ extern "C" {
 
 #include "driver/sdmmc_types.h"
 
-typedef struct StorageDeviceData_t {
+typedef struct StorageDeviceData {
   const char* const mountPoint;
   sdmmc_card_t* card;
-} StorageDeviceData_t;
+} StorageDeviceData;
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // STORAGE_DATA_H

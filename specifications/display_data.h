@@ -1,5 +1,4 @@
-#ifndef DISPLAY_DATA_H
-#define DISPLAY_DATA_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,5 +14,3 @@ typedef struct DisplayDeviceData {
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // DISPLAY_DATA_H

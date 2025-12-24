@@ -1,5 +1,4 @@
-#ifndef AUDIO_DATA_H
-#define AUDIO_DATA_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -14,5 +13,3 @@ typedef struct AudioDeviceData {
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // AUDIO_DATA_H

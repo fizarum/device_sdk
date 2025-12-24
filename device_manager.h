@@ -1,5 +1,4 @@
-#ifndef DEVICE_MANAGER_H
-#define DEVICE_MANAGER_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,13 +29,16 @@ _u16 DeviceManagerAdd(DeviceManager* deviceManager, Device* device);
 Device* DeviceManagerGet(const DeviceManager* deviceManager,
                          const _u16 deviceId);
 
-Device* DeviceManagerGetByType(const DeviceManager* deviceManager,
-                               const DeviceType deviceType);
+DeviceSpecification* DeviceManager_GetSpecification(
+    const DeviceType deviceType);
+
+void* DeviceManager_GetData(const DeviceType deviceType);
+void* DeviceManager_GetExtension(const DeviceType deviceType);
+
+Device* DeviceManager_GetByType(const DeviceType deviceType);
 
 _u16 DeviceManagerNextDeviceId(DeviceManager* deviceManager);
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // DEVICE_MANAGER_H

@@ -1,5 +1,4 @@
-#ifndef INPUT_DATA_H
-#define INPUT_DATA_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,5 +37,3 @@ static inline bool IsAnyButtonPressed(const InputDeviceData* data) {
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // INPUT_DATA_H
