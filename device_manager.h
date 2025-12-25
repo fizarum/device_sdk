@@ -32,7 +32,6 @@ Device* DeviceManagerGet(const DeviceManager* deviceManager,
 DeviceSpecification* DeviceManager_GetSpecification(
     const DeviceType deviceType);
 
-void* DeviceManager_GetData(const DeviceType deviceType);
 void* DeviceManager_GetExtension(const DeviceType deviceType);
 
 Device* DeviceManager_GetByType(const DeviceType deviceType);

@@ -33,15 +33,11 @@ typedef struct DeviceSpecification {
   /**
    * @brief Contains some data based on device type. For example,
    * for joystic it can have prevous and current keymap.
-   * For display - frame, sync state, etc.
-   * Check "specifications" folder for details
-   */
-  void* data;
-
-  /**
-   * @brief used to access to a structure of specific device API. For example,
-   * for display it can have: setBrightness(), setRotation(), invertColors, etc.
+   * For display - frame, sync state, etc. Also used to access to a structure of
+   * specific device API. For example, for display it can have: setBrightness(),
+   * setRotation(), invertColors, etc.
    *
+   * Check "specifications" folder for details.
    */
   void* extension;
 
@@ -65,7 +61,7 @@ bool DeviceIsEnabled(const Device* device);
 const char* DeviceGetName(const Device* device);
 _u16 DeviceGetId(const Device* device);
 DeviceType DeviceGetType(const Device* device);
-void* DeviceGetData(const Device* device);
+void* DeviceGetExtension(const Device* device);
 
 DeviceSpecification* Device_GetSpecification(const Device* device);
 

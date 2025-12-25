@@ -8,10 +8,10 @@ extern "C" {
 
 #include "driver/sdmmc_types.h"
 
-typedef struct StorageDeviceData {
+typedef struct StorageDeviceExtension {
   const char* const mountPoint;
   sdmmc_card_t* card;
-} StorageDeviceData;
+} StorageDeviceExtension;
 
 #ifdef __cplusplus
 }
