@@ -66,14 +66,9 @@ DeviceSpecification* DeviceManager_GetSpecification(
   return Device_GetSpecification(dev);
 }
 
-void* DeviceManager_GetData(const DeviceType deviceType) {
-  Device* dev = DeviceManager_GetByType(deviceType);
-  return DeviceGetData(dev);
-}
-
 void* DeviceManager_GetExtension(const DeviceType deviceType) {
-  DeviceSpecification* specs = DeviceManager_GetSpecification(deviceType);
-  return specs->extension;
+  Device* dev = DeviceManager_GetByType(deviceType);
+  return DeviceGetExtension(dev);
 }
 
 Device* DeviceManager_GetByType(const DeviceType deviceType) {

@@ -61,11 +61,11 @@ DeviceType DeviceGetType(const Device* device) {
   return device->specification->type;
 }
 
-void* DeviceGetData(const Device* device) {
+void* DeviceGetExtension(const Device* device) {
   if (device == NULL) {
     return NULL;
   }
-  return device->specification->data;
+  return device->specification->extension;
 }
 
 DeviceSpecification* Device_GetSpecification(const Device* device) {

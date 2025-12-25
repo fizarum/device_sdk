@@ -6,9 +6,11 @@ extern "C" {
 
 #include <types.h>
 
-typedef struct AudioDeviceData {
+typedef struct AudioDeviceExtension {
   float volume;
-} AudioDeviceData;
+
+  bool (*changeVolume)(_u8 volume);
+} AudioDeviceExtension;
 
 #ifdef __cplusplus
 }
