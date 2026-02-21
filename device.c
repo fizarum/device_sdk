@@ -8,7 +8,7 @@ typedef struct Device {
   DeviceSpecification* specification;
 } Device;
 
-Device* DeviceCreate(uint16_t id, DeviceSpecification* specification) {
+Device* Device_Create(uint16_t id, DeviceSpecification* specification) {
   Device* device = (Device*)malloc(sizeof(Device));
 
   device->id = id;
@@ -20,28 +20,28 @@ Device* DeviceCreate(uint16_t id, DeviceSpecification* specification) {
   return device;
 }
 
-void DeviceDestroy(Device* device) {
+void Device_Destroy(Device* device) {
   if (device == NULL) return;
 
   free(device);
 }
 
-bool DeviceInit(Device* device) {
+bool Device_Init(Device* device) {
   bool initialized = device->specification->onInit();
   if (initialized == true) {
-    DeviceEnable(device, true);
+    Device_Enable(device, true);
   }
 
   return initialized;
 }
 
-void DeviceUpdate(Device* device) {
+void Device_Update(Device* device) {
   if (device->enabled) {
     device->specification->onUpdate();
   }
 }
 
-void DeviceEnable(Device* device, const bool enable) {
+void Device_Enable(Device* device, const bool enable) {
   if (device->specification->onEnable(enable) == true) {
     device->enabled = enable;
   } else {
@@ -49,19 +49,19 @@ void DeviceEnable(Device* device, const bool enable) {
   }
 }
 
-bool DeviceIsEnabled(const Device* device) { return device->enabled; }
+bool Device_IsEnabled(const Device* device) { return device->enabled; }
 
-const char* DeviceGetName(const Device* device) {
+const char* Device_GetName(const Device* device) {
   return device->specification->name;
 }
 
-_u16 DeviceGetId(const Device* device) { return device->id; }
+_u16 Device_GetId(const Device* device) { return device->id; }
 
-DeviceType DeviceGetType(const Device* device) {
+DeviceType Device_GetType(const Device* device) {
   return device->specification->type;
 }
 
-void* DeviceGetExtension(const Device* device) {
+void* Device_GetExtension(const Device* device) {
   if (device == NULL) {
     return NULL;
   }

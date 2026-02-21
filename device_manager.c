@@ -12,13 +12,13 @@ static DeviceManager* deviceManager = NULL;
 
 static inline void _UpdateDevices(const _u16 key, const void* value) {
   Device* device = (Device*)value;
-  DeviceUpdate(device);
+  Device_Update(device);
 }
 static inline bool _FindDeviceByTypePredicate(const void* expected,
                                               const void* value) {
   const DeviceType deviceType = (DeviceType)expected;
   Device* device = (Device*)value;
-  return deviceType == DeviceGetType(device);
+  return deviceType == Device_GetType(device);
 }
 
 DeviceManager* DeviceManagerGetInstance() {
@@ -45,11 +45,11 @@ _u16 DeviceManagerAdd(DeviceManager* deviceManager, Device* device) {
     return DEVICE_ID_NONE;
   }
 
-  _u16 deviceId = DeviceGetId(device);
+  _u16 deviceId = Device_GetId(device);
   bool added = MapSet(deviceManager->devices, deviceId, device);
   bool initOk = false;
   if (added == true) {
-    initOk = DeviceInit(device);
+    initOk = Device_Init(device);
   }
 
   return (added == true && initOk == true) ? deviceId : DEVICE_ID_NONE;
@@ -68,7 +68,7 @@ DeviceSpecification* DeviceManager_GetSpecification(
 
 void* DeviceManager_GetExtension(const DeviceType deviceType) {
   Device* dev = DeviceManager_GetByType(deviceType);
-  return DeviceGetExtension(dev);
+  return Device_GetExtension(dev);
 }
 
 Device* DeviceManager_GetByType(const DeviceType deviceType) {

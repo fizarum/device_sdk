@@ -51,17 +51,17 @@ typedef struct DeviceSpecification {
   bool (*isEnabled)(void);
 } DeviceSpecification;
 
-Device* DeviceCreate(uint16_t id, DeviceSpecification* specification);
-void DeviceDestroy(Device* device);
-bool DeviceInit(Device* device);
-void DeviceUpdate(Device* device);
-void DeviceEnable(Device* device, const bool enable);
-bool DeviceIsEnabled(const Device* device);
+Device* Device_Create(uint16_t id, DeviceSpecification* specification);
+void Device_Destroy(Device* device);
+bool Device_Init(Device* device);
+void Device_Update(Device* device);
+void Device_Enable(Device* device, const bool enable);
+bool Device_IsEnabled(const Device* device);
 
-const char* DeviceGetName(const Device* device);
-_u16 DeviceGetId(const Device* device);
-DeviceType DeviceGetType(const Device* device);
-void* DeviceGetExtension(const Device* device);
+const char* Device_GetName(const Device* device);
+_u16 Device_GetId(const Device* device);
+DeviceType Device_GetType(const Device* device);
+void* Device_GetExtension(const Device* device);
 
 DeviceSpecification* Device_GetSpecification(const Device* device);
 
