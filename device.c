@@ -42,6 +42,10 @@ void Device_Update(Device* device) {
 }
 
 void Device_Enable(Device* device, const bool enable) {
+  if (device->enabled == enable) {
+    return;
+  }
+
   if (device->specification->onEnable(enable) == true) {
     device->enabled = enable;
   } else {
