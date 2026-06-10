@@ -4,39 +4,32 @@
 extern "C" {
 #endif
 
-#include <types.h>
-
 #include "device.h"
 
 #define MAX_DEVICES_COUNT 20
 #define DEVICE_ID_NONE UINT16_MAX
 
-typedef struct DeviceManager DeviceManager;
-
-DeviceManager* DeviceManagerGetInstance();
-
-void DeviceManagerUpdate(const DeviceManager* deviceManager);
+void device_manager_init();
+void device_manager_update();
 
 /**
- * @brief Adds device to device manager for further management. If device can
- * not be added DEVICE_ID_NONE is returned as device id
+ * @brief Adds device to device manager for further management. If device
+ * can not be added DEVICE_ID_NONE is returned as device id
  *
  * @param device to add
  * @return id if device is added, DEVICE_ID_NONE otherwise
  */
-_u16 DeviceManagerAdd(DeviceManager* deviceManager, Device* device);
+_u16 device_manager_register(device_specification_t* specs);
 
-Device* DeviceManagerGet(const DeviceManager* deviceManager,
-                         const _u16 deviceId);
+/**
+ * @brief Gets device by id
+ * @returns ref on device_t or null if device not registered
+ */
+device_t* device_manager_get(const _u16 device_id);
 
-DeviceSpecification* DeviceManager_GetSpecification(
-    const DeviceType deviceType);
+void* device_manager_get_extension(const device_type_t deviceType);
 
-void* DeviceManager_GetExtension(const DeviceType deviceType);
-
-Device* DeviceManager_GetByType(const DeviceType deviceType);
-
-_u16 DeviceManagerNextDeviceId(DeviceManager* deviceManager);
+device_t* device_manager_get_by_type(const device_type_t deviceType);
 
 #ifdef __cplusplus
 }
