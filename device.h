@@ -51,10 +51,9 @@ typedef struct device_specification_t {
    * @brief Called to initialize hardware
    * @returns true if init procedure completes successfully
    */
-  bool (*onInit)(device_specification_t*);
-  void (*onUpdate)(device_specification_t*);
-  bool (*onEnable)(device_specification_t*, bool enable);
-  bool (*isEnabled)(device_specification_t*);
+  bool (*on_init)(device_specification_t*);
+  void (*on_update)(device_specification_t*);
+  bool (*on_enable)(device_specification_t*, bool enable);
 } device_specification_t;
 
 device_t* device_create(uint16_t id, device_specification_t* specification);

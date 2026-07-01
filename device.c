@@ -33,11 +33,11 @@ void device_destroy(device_t* device) {
 
 bool device_init(device_t* device) {
   if (device == NULL || device->specification == NULL ||
-      device->specification->onInit == NULL) {
+      device->specification->on_init == NULL) {
     return false;
   }
 
-  bool initialized = device->specification->onInit(device->specification);
+  bool initialized = device->specification->on_init(device->specification);
   if (initialized == true) {
     device_enable(device, true);
   }
@@ -47,18 +47,18 @@ bool device_init(device_t* device) {
 
 void device_update(device_t* device) {
   if (device == NULL || device->specification == NULL ||
-      device->specification->onUpdate == NULL) {
+      device->specification->on_update == NULL) {
     return;
   }
 
-  if (device->enabled && device->specification->onUpdate != NULL) {
-    device->specification->onUpdate(device->specification);
+  if (device->enabled && device->specification->on_update != NULL) {
+    device->specification->on_update(device->specification);
   }
 }
 
 void device_enable(device_t* device, const bool enable) {
   if (device == NULL || device->specification == NULL ||
-      device->specification->onEnable == NULL) {
+      device->specification->on_enable == NULL) {
     return;
   }
 
@@ -66,7 +66,7 @@ void device_enable(device_t* device, const bool enable) {
     return;
   }
 
-  if (device->specification->onEnable(device->specification, enable) == true) {
+  if (device->specification->on_enable(device->specification, enable) == true) {
     device->enabled = enable;
   } else {
     device->enabled = false;

@@ -20,6 +20,9 @@ void device_manager_update() {
 }
 
 _u16 device_manager_register(device_specification_t* specs) {
+  if (specs == NULL) {
+    return DEVICE_ID_NONE;
+  }
   _u16 id = next_id++;
   device_t* device = device_create(id, specs);
   if (device == NULL) {
