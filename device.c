@@ -3,100 +3,101 @@
 #include <stdlib.h>
 
 typedef struct device_t {
-  uint16_t id;
-  bool enabled;
-  device_specification_t* specification;
+    uint16_t id;
+    bool enabled;
+    device_specification_t *specification;
 } device_t;
 
-device_t* device_create(uint16_t id, device_specification_t* specification) {
-  assert(specification);
-  device_t* device = (device_t*)malloc(sizeof(device_t));
-  if (device == NULL) {
-    return NULL;
-  }
+device_t *device_create(const uint16_t id, device_specification_t *specification) {
+    if (specification == NULL) {
+        return NULL;
+    }
 
-  device->id = id;
-  // set a ref of device to specification, so it knows its parent
-  specification->device = device;
+    device_t *device = malloc(sizeof(device_t));
+    assert(device != NULL);
 
-  device->specification = specification;
+    device->id = id;
+    // set a ref of device to specification, so it knows its parent
+    specification->device = device;
 
-  return device;
+    device->specification = specification;
+
+    return device;
 }
 
-void device_destroy(device_t* device) {
-  if (device == NULL) return;
-  device->specification->device = NULL;
+void device_destroy(device_t *device) {
+    if (device == NULL) return;
+    device->specification->device = NULL;
 
-  free(device);
+    free(device);
 }
 
-bool device_init(device_t* device) {
-  if (device == NULL || device->specification == NULL ||
-      device->specification->on_init == NULL) {
-    return false;
-  }
+bool device_init(device_t *device) {
+    if (device == NULL || device->specification == NULL ||
+        device->specification->on_init == NULL) {
+        return false;
+    }
 
-  bool initialized = device->specification->on_init(device->specification);
-  if (initialized == true) {
-    device_enable(device, true);
-  }
+    const bool initialized = device->specification->on_init(device->specification);
+    if (initialized == true) {
+        device_enable(device, true);
+    }
 
-  return initialized;
+    return initialized;
 }
 
-void device_update(device_t* device) {
-  if (device == NULL || device->specification == NULL ||
-      device->specification->on_update == NULL) {
-    return;
-  }
+void device_update(const device_t *device) {
+    if (device == NULL || device->specification == NULL ||
+        device->specification->on_update == NULL) {
+        return;
+    }
 
-  if (device->enabled && device->specification->on_update != NULL) {
-    device->specification->on_update(device->specification);
-  }
+    if (device->enabled) {
+        device->specification->on_update(device->specification);
+    }
 }
 
-void device_enable(device_t* device, const bool enable) {
-  if (device == NULL || device->specification == NULL ||
-      device->specification->on_enable == NULL) {
-    return;
-  }
+void device_enable(device_t *device, const bool enable) {
+    if (device == NULL || device->specification == NULL ||
+        device->specification->on_enable == NULL) {
+        return;
+    }
 
-  if (device->enabled == enable) {
-    return;
-  }
+    if (device->enabled == enable) {
+        return;
+    }
 
-  if (device->specification->on_enable(device->specification, enable) == true) {
-    device->enabled = enable;
-  } else {
-    device->enabled = false;
-  }
+    if (device->specification->on_enable(device->specification, enable) == true) {
+        device->enabled = enable;
+    } else {
+        device->enabled = false;
+    }
 }
 
-bool device_is_enabled(const device_t* device) { return device->enabled; }
+bool device_is_enabled(const device_t *device) { return device->enabled; }
 
-const char* device_get_name(const device_t* device) {
-  return device->specification->name;
+const char *device_get_name(const device_t *device) {
+    return device->specification->name;
 }
 
-_u16 device_get_id(const device_t* device) { return device->id; }
+_u16 device_get_id(const device_t *device) { return device->id; }
 
-device_type_t device_get_type(const device_t* device) {
-  return device->specification->type;
+device_type_t device_get_type(const device_t *device) {
+    return device->specification->type;
 }
 
-void* device_get_extension(const device_t* device) {
-  if (device == NULL) {
-    return NULL;
-  }
+void *device_get_extension(const device_t *device) {
+    if (device == NULL || device->specification == NULL) {
+        return NULL;
+    }
 
-  return device->specification->extension;
+    return device->specification->extension;
 }
 
-device_specification_t* device_get_specification(const device_t* device) {
-  if (device == NULL) {
-    return NULL;
-  }
+device_specification_t *device_get_specification(const device_t *device) {
+    if (device == NULL) {
+        return NULL;
+    }
 
-  return device->specification;
+    return device->specification;
 }
