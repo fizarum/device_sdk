@@ -26,14 +26,14 @@ typedef struct device_specification_t {
   device_type_t type;
 
   /**
-   * @brief Link to "parent" object. Its assigned during device creation:
+   * @brief Link to "parent" object. It's assigned during device creation:
    * DeviceCreate() function
    */
   device_t* device;
 
   /**
    * @brief Contains some data based on device type. For example,
-   * for joystic it can have prevous and current keymap.
+   * for joystick it can have previous and current keymap.
    * For display - frame, sync state, etc. Also used to access to a structure of
    * specific device API. For example, for display it can have: setBrightness(),
    * setRotation(), invertColors, etc.
@@ -52,15 +52,15 @@ typedef struct device_specification_t {
    * @returns true if init procedure completes successfully
    */
   bool (*on_init)(device_specification_t*);
-  void (*on_update)(device_specification_t*);
-  bool (*on_enable)(device_specification_t*, bool enable);
+  void (*on_update)(const device_specification_t*);
+  bool (*on_enable)(const device_specification_t*, bool enable);
 } device_specification_t;
 
 device_t* device_create(uint16_t id, device_specification_t* specification);
 void device_destroy(device_t* device);
 bool device_init(device_t* device);
-void device_update(device_t* device);
-void device_enable(device_t* device, const bool enable);
+void device_update(const device_t* device);
+void device_enable(device_t* device, bool enable);
 bool device_is_enabled(const device_t* device);
 
 const char* device_get_name(const device_t* device);

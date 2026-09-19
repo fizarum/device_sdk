@@ -16,7 +16,7 @@ void device_manager_update();
  * @brief Adds device to device manager for further management. If device
  * can not be added DEVICE_ID_NONE is returned as device id
  *
- * @param device to add
+ * @param specs device to add
  * @return id if device is added, DEVICE_ID_NONE otherwise
  */
 _u16 device_manager_register(device_specification_t* specs);
